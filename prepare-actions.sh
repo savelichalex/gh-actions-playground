@@ -1,3 +1,3 @@
 cd .github/actions/cut-release-action
 
-npx tsc
+npx @vercel/ncc build index.ts

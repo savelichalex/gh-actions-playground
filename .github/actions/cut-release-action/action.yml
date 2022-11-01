@@ -12,4 +12,4 @@ outputs:
     description: "The URL users can navigate to in order to view the branch"
 runs:
   using: "node16"
-  main: "dist/main.js"
+  main: "dist/index.js"
