@@ -10,21 +10,13 @@ const trunkBranchRef = `heads/${trunkBranch}`;
 
 const getTargetBranchLastCommit = async (octokit: Api, owner: string, repo: string) => {
     try {
-        core.info(JSON.stringify({
-            owner,
-            repo,
-            ref: targetBranchRef
-        }, null, '  '));
         const res = await octokit.rest.git.getRef({
             owner,
             repo,
             ref: targetBranchRef
         });
 
-        core.info(JSON.stringify(res, null, '  '));
-
         if (res.status !== 200) {
-            core.info(`getTargetBranchLastCommit failed with ${res.status}`);
             return null;
         }
 
@@ -39,21 +31,13 @@ const getTargetBranchLastCommit = async (octokit: Api, owner: string, repo: stri
 
 const getTrunkBranchLastCommit = async (octokit: Api, owner: string, repo: string) => {
     try {
-        core.info(JSON.stringify({
-            owner,
-            repo,
-            ref: trunkBranchRef
-        }, null, '  '));
         const res = await octokit.rest.git.getRef({
             owner,
             repo,
             ref: trunkBranchRef
         });
 
-        core.info(JSON.stringify(res, null, '  '));
-
         if (res.status !== 200) {
-            core.info(`getTrunkBranchLastCommit failed with ${res.status}`);
             return null;
         }
 
