@@ -142,15 +142,19 @@ async function run() {
                     oldRevCommit,
                 )
 
-                throw new Error(`Couldn't create ${targetBranch}, because of ${err.message}. Trying to restore old one.`)
+                throw new Error(`Couldn't create ${targetBranch}, because of ${(err as Error).message}. Trying to restore old one.`)
             }
-            throw new Error(`Couldn't create ${targetBranch}, because of ${err.message}.`)
+            throw new Error(`Couldn't create ${targetBranch}, because of ${(err as Error).message}.`)
         }
 
         // Set the output
         core.setOutput('branch_url', `https://github.com/${owner}/${repo}/tree/${targetBranch}`);
     } catch (error) {
-        core.setFailed(error.message);
+        if (error instanceof Error) {
+            core.setFailed(error.message);
+        } else {
+            core.setFailed('Unknown error');
+        }
     }
 }
 
