@@ -10,6 +10,11 @@ const trunkBranchRef = `heads/${trunkBranch}`;
 
 const getTargetBranchLastCommit = async (octokit: Api, owner: string, repo: string) => {
     try {
+        core.info(JSON.stringify({
+            owner,
+            repo,
+            ref: targetBranchRef
+        }, null, '  '));
         const res = await octokit.rest.git.getRef({
             owner,
             repo,
@@ -34,6 +39,11 @@ const getTargetBranchLastCommit = async (octokit: Api, owner: string, repo: stri
 
 const getTrunkBranchLastCommit = async (octokit: Api, owner: string, repo: string) => {
     try {
+        core.info(JSON.stringify({
+            owner,
+            repo,
+            ref: trunkBranchRef
+        }, null, '  '));
         const res = await octokit.rest.git.getRef({
             owner,
             repo,

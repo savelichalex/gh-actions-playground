@@ -9738,6 +9738,11 @@ const trunkBranch = `main`;
 const trunkBranchRef = `heads/${trunkBranch}`;
 const getTargetBranchLastCommit = async (octokit, owner, repo) => {
     try {
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(JSON.stringify({
+            owner,
+            repo,
+            ref: targetBranchRef
+        }, null, '  '));
         const res = await octokit.rest.git.getRef({
             owner,
             repo,
@@ -9758,6 +9763,11 @@ const getTargetBranchLastCommit = async (octokit, owner, repo) => {
 };
 const getTrunkBranchLastCommit = async (octokit, owner, repo) => {
     try {
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(JSON.stringify({
+            owner,
+            repo,
+            ref: trunkBranchRef
+        }, null, '  '));
         const res = await octokit.rest.git.getRef({
             owner,
             repo,
