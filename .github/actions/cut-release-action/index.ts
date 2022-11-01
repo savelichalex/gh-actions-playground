@@ -23,6 +23,7 @@ const getTargetBranchLastCommit = async (octokit: Api, owner: string, repo: stri
         return res.data.object.sha;
     } catch (e) {
         // do nothing
+        core.info((e as Error).message);
     }
 
     return null;
@@ -43,6 +44,7 @@ const getTrunkBranchLastCommit = async (octokit: Api, owner: string, repo: strin
         return res.data.object.sha;
     } catch (e) {
         // do nothing
+        core.info((e as Error).message);
     }
 
     return null;
