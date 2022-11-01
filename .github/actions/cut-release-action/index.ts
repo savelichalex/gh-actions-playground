@@ -17,6 +17,7 @@ const getTargetBranchLastCommit = async (octokit: Api, owner: string, repo: stri
         });
 
         if (res.status !== 200) {
+            core.info(`getTargetBranchLastCommit failed with ${res.status}`);
             return null;
         }
 
@@ -38,6 +39,7 @@ const getTrunkBranchLastCommit = async (octokit: Api, owner: string, repo: strin
         });
 
         if (res.status !== 200) {
+            core.info(`getTrunkBranchLastCommit failed with ${res.status}`);
             return null;
         }
 
