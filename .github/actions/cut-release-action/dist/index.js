@@ -9743,13 +9743,16 @@ const getTargetBranchLastCommit = async (octokit, owner, repo) => {
             repo,
             ref: targetBranchRef
         });
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(JSON.stringify(res, null, '  '));
         if (res.status !== 200) {
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`getTargetBranchLastCommit failed with ${res.status}`);
             return null;
         }
         return res.data.object.sha;
     }
     catch (e) {
         // do nothing
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(e.message);
     }
     return null;
 };
@@ -9760,13 +9763,16 @@ const getTrunkBranchLastCommit = async (octokit, owner, repo) => {
             repo,
             ref: trunkBranchRef
         });
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(JSON.stringify(res, null, '  '));
         if (res.status !== 200) {
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`getTrunkBranchLastCommit failed with ${res.status}`);
             return null;
         }
         return res.data.object.sha;
     }
     catch (e) {
         // do nothing
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(e.message);
     }
     return null;
 };
