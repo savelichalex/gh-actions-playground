@@ -9825,20 +9825,20 @@ const restoreTargetBranch = async (octokit, owner, repo, targetLastCommit) => {
         const repo = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('repo', { required: true });
         // Create the branch
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Creating branch ${targetBranch}`);
-        const oldRevCommit = await getTargetBranchLastCommit(octokit, repo, owner);
-        const trunkLastCommit = await getTrunkBranchLastCommit(octokit, repo, owner);
+        const oldRevCommit = await getTargetBranchLastCommit(octokit, owner, repo);
+        const trunkLastCommit = await getTrunkBranchLastCommit(octokit, owner, repo);
         if (trunkLastCommit == null) {
             throw new Error("Can't fetch info for trunk branch. Please re-start.");
         }
         if (oldRevCommit != null) {
-            await deleteTargetBranch(octokit, repo, owner);
+            await deleteTargetBranch(octokit, owner, repo);
         }
         try {
-            await createTargetBranch(octokit, repo, owner, trunkLastCommit);
+            await createTargetBranch(octokit, owner, repo, trunkLastCommit);
         }
         catch (err) {
             if (oldRevCommit != null) {
-                await restoreTargetBranch(octokit, repo, owner, oldRevCommit);
+                await restoreTargetBranch(octokit, owner, repo, oldRevCommit);
                 throw new Error(`Couldn't create ${targetBranch}, because of ${err.message}. Trying to restore old one.`);
             }
             throw new Error(`Couldn't create ${targetBranch}, because of ${err.message}.`);

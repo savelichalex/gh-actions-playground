@@ -122,14 +122,14 @@ const restoreTargetBranch = async (
 
         const oldRevCommit = await getTargetBranchLastCommit(
             octokit,
+            owner,
             repo,
-            owner
         );
 
         const trunkLastCommit = await getTrunkBranchLastCommit(
             octokit,
+            owner,
             repo,
-            owner
         );
 
         if (trunkLastCommit == null) {
@@ -139,24 +139,24 @@ const restoreTargetBranch = async (
         if (oldRevCommit != null) {
             await deleteTargetBranch(
                 octokit,
+                owner,
                 repo,
-                owner
             );
         }
 
         try {
             await createTargetBranch(
                 octokit,
-                repo,
                 owner,
+                repo,
                 trunkLastCommit,
             )
         } catch (err) {
             if (oldRevCommit != null) {
                 await restoreTargetBranch(
                     octokit,
-                    repo,
                     owner,
+                    repo,
                     oldRevCommit,
                 )
 
