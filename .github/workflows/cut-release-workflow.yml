@@ -1,0 +1,9 @@
+name: cut-release
+run-name: ${{ github.actor }} has cut a new release
+on: [release]
+jobs:
+  make-fresh-release–branch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cut-release-action

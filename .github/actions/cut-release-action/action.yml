@@ -1,0 +1,5 @@
+name: cut-release-action
+description: Deletes release branch and starts a new one from the trunk HEAD
+runs:
+  using: "node16"
+  main: "dist/main.js"

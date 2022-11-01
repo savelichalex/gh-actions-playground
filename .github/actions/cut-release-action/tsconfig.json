@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "lib": ["ESNext"],
+        "outDir": "dist",
+        "removeComments": true,
+        "target": "esnext",
+        "moduleResolution": "node"
+    }
+}

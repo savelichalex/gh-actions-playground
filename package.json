@@ -1,0 +1,14 @@
+{
+  "name": "gh-actions-playground",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:savelichalex/gh-actions-playground.git",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "@types/node": "^18.11.9",
+    "tsc": "^2.0.4",
+    "typescript": "^4.8.4"
+  }
+}
