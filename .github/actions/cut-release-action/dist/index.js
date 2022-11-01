@@ -9507,130 +9507,6 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 4948:
-/***/ ((module, __webpack_exports__, __nccwpck_require__) => {
-
-"use strict";
-__nccwpck_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(5970);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(1447);
-/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_1__);
-/* module decorator */ module = __nccwpck_require__.hmd(module);
-
-
-const targetBranch = `release`;
-const targetBranchRef = `heads/${targetBranch}`;
-const trunkBranch = `main`;
-const trunkBranchRef = `heads/${trunkBranch}`;
-const getTargetBranchLastCommit = async (octokit, owner, repo) => {
-    try {
-        const res = await octokit.rest.git.getRef({
-            owner,
-            repo,
-            ref: targetBranchRef
-        });
-        if (res.status !== 200) {
-            return null;
-        }
-        return res.data.object.sha;
-    }
-    catch (e) {
-        // do nothing
-    }
-    return null;
-};
-const getTrunkBranchLastCommit = async (octokit, owner, repo) => {
-    try {
-        const res = await octokit.rest.git.getRef({
-            owner,
-            repo,
-            ref: trunkBranchRef
-        });
-        if (res.status !== 200) {
-            return null;
-        }
-        return res.data.object.sha;
-    }
-    catch (e) {
-        // do nothing
-    }
-    return null;
-};
-const deleteTargetBranch = async (octokit, owner, repo) => {
-    await octokit.rest.git.deleteRef({
-        owner,
-        repo,
-        ref: targetBranchRef
-    });
-};
-const createTargetBranch = async (octokit, owner, repo, trunkLastCommit) => {
-    await octokit.rest.git.createRef({
-        owner,
-        repo,
-        ref: `refs/${targetBranchRef}`,
-        sha: trunkLastCommit
-    });
-};
-const restoreTargetBranch = async (octokit, owner, repo, targetLastCommit) => {
-    try {
-        await octokit.rest.git.createRef({
-            owner,
-            repo,
-            ref: `refs/${targetBranchRef}`,
-            sha: targetLastCommit
-        });
-    }
-    catch (err) {
-        // do nothing
-    }
-};
-async function run() {
-    if (process.env.GITHUB_TOKEN == null) {
-        return;
-    }
-    try {
-        // Get authenticated GitHub client 
-        const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit(process.env.GITHUB_TOKEN);
-        const owner = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('owner', { required: true });
-        const repo = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('repo', { required: true });
-        // Create the branch
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Creating branch ${targetBranch}`);
-        const oldRevCommit = await getTargetBranchLastCommit(octokit, repo, owner);
-        const trunkLastCommit = await getTrunkBranchLastCommit(octokit, repo, owner);
-        if (trunkLastCommit == null) {
-            throw new Error("Can't fetch info for trunk branch. Please re-start.");
-        }
-        if (oldRevCommit != null) {
-            await deleteTargetBranch(octokit, repo, owner);
-        }
-        try {
-            await createTargetBranch(octokit, repo, owner, trunkLastCommit);
-        }
-        catch (err) {
-            if (oldRevCommit != null) {
-                await restoreTargetBranch(octokit, repo, owner, oldRevCommit);
-                throw new Error(`Couldn't create ${targetBranch}, because of ${err.message}. Trying to restore old one.`);
-            }
-            throw new Error(`Couldn't create ${targetBranch}, because of ${err.message}.`);
-        }
-        // Set the output
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput('branch_url', `https://github.com/${owner}/${repo}/tree/${targetBranch}`);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
-        }
-        else {
-            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed('Unknown error');
-        }
-    }
-}
-module.exports = run;
-
-
-/***/ }),
-
 /***/ 8590:
 /***/ ((module) => {
 
@@ -9781,8 +9657,8 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			id: moduleId,
-/******/ 			loaded: false,
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
@@ -9794,9 +9670,6 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 		} finally {
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
-/******/ 	
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -9827,21 +9700,6 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/harmony module decorator */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.hmd = (module) => {
-/******/ 			module = Object.create(module);
-/******/ 			if (!module.children) module.children = [];
-/******/ 			Object.defineProperty(module, 'exports', {
-/******/ 				enumerable: true,
-/******/ 				set: () => {
-/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
-/******/ 				}
-/******/ 			});
-/******/ 			return module;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -9863,12 +9721,127 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(4948);
-/******/ 	module.exports = __webpack_exports__;
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+__nccwpck_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(5970);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(1447);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const targetBranch = `release`;
+const targetBranchRef = `heads/${targetBranch}`;
+const trunkBranch = `main`;
+const trunkBranchRef = `heads/${trunkBranch}`;
+const getTargetBranchLastCommit = async (octokit, owner, repo) => {
+    try {
+        const res = await octokit.rest.git.getRef({
+            owner,
+            repo,
+            ref: targetBranchRef
+        });
+        if (res.status !== 200) {
+            return null;
+        }
+        return res.data.object.sha;
+    }
+    catch (e) {
+        // do nothing
+    }
+    return null;
+};
+const getTrunkBranchLastCommit = async (octokit, owner, repo) => {
+    try {
+        const res = await octokit.rest.git.getRef({
+            owner,
+            repo,
+            ref: trunkBranchRef
+        });
+        if (res.status !== 200) {
+            return null;
+        }
+        return res.data.object.sha;
+    }
+    catch (e) {
+        // do nothing
+    }
+    return null;
+};
+const deleteTargetBranch = async (octokit, owner, repo) => {
+    await octokit.rest.git.deleteRef({
+        owner,
+        repo,
+        ref: targetBranchRef
+    });
+};
+const createTargetBranch = async (octokit, owner, repo, trunkLastCommit) => {
+    await octokit.rest.git.createRef({
+        owner,
+        repo,
+        ref: `refs/${targetBranchRef}`,
+        sha: trunkLastCommit
+    });
+};
+const restoreTargetBranch = async (octokit, owner, repo, targetLastCommit) => {
+    try {
+        await octokit.rest.git.createRef({
+            owner,
+            repo,
+            ref: `refs/${targetBranchRef}`,
+            sha: targetLastCommit
+        });
+    }
+    catch (err) {
+        // do nothing
+    }
+};
+(async () => {
+    if (process.env.GITHUB_TOKEN == null) {
+        return;
+    }
+    try {
+        // Get authenticated GitHub client 
+        const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit(process.env.GITHUB_TOKEN);
+        const owner = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('owner', { required: true });
+        const repo = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('repo', { required: true });
+        // Create the branch
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Creating branch ${targetBranch}`);
+        const oldRevCommit = await getTargetBranchLastCommit(octokit, repo, owner);
+        const trunkLastCommit = await getTrunkBranchLastCommit(octokit, repo, owner);
+        if (trunkLastCommit == null) {
+            throw new Error("Can't fetch info for trunk branch. Please re-start.");
+        }
+        if (oldRevCommit != null) {
+            await deleteTargetBranch(octokit, repo, owner);
+        }
+        try {
+            await createTargetBranch(octokit, repo, owner, trunkLastCommit);
+        }
+        catch (err) {
+            if (oldRevCommit != null) {
+                await restoreTargetBranch(octokit, repo, owner, oldRevCommit);
+                throw new Error(`Couldn't create ${targetBranch}, because of ${err.message}. Trying to restore old one.`);
+            }
+            throw new Error(`Couldn't create ${targetBranch}, because of ${err.message}.`);
+        }
+        // Set the output
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput('branch_url', `https://github.com/${owner}/${repo}/tree/${targetBranch}`);
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
+        }
+        else {
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed('Unknown error');
+        }
+    }
+})();
+
+})();
+
+module.exports = __webpack_exports__;
 /******/ })()
 ;

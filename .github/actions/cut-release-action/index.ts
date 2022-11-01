@@ -88,7 +88,7 @@ const restoreTargetBranch = async (
     }
 }
 
-async function run() {
+(async () => {
     if (process.env.GITHUB_TOKEN == null) {
         return;
     }
@@ -156,6 +156,4 @@ async function run() {
             core.setFailed('Unknown error');
         }
     }
-}
-
-module.exports = run;
+})();
