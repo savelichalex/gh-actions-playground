@@ -1,5 +1,15 @@
 name: cut-release-action
 description: Deletes release branch and starts a new one from the trunk HEAD
+inputs:
+  owner:
+    description: "Owner of the repository if it is not the current one"
+    required: true
+  repo:
+    description: "Repository on which to release.  Used only if you want to create the release on another repo"
+    required: true
+outputs:
+  branch_url:
+    description: "The URL users can navigate to in order to view the branch"
 runs:
   using: "node16"
   main: "dist/main.js"
