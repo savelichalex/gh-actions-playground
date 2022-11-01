@@ -2,7 +2,9 @@
 # https://github.com/lablnet/create-branch-from-tag
 name: cut-release
 run-name: ${{ github.actor }} has cut a new release
-on: [release]
+on:
+  release:
+    types: [released]
 jobs:
   make_fresh_release_branch:
     runs-on: ubuntu-latest
@@ -10,7 +12,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/cut-release-action
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}

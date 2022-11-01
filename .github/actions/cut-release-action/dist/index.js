@@ -9738,19 +9738,12 @@ const trunkBranch = `main`;
 const trunkBranchRef = `heads/${trunkBranch}`;
 const getTargetBranchLastCommit = async (octokit, owner, repo) => {
     try {
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(JSON.stringify({
-            owner,
-            repo,
-            ref: targetBranchRef
-        }, null, '  '));
         const res = await octokit.rest.git.getRef({
             owner,
             repo,
             ref: targetBranchRef
         });
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(JSON.stringify(res, null, '  '));
         if (res.status !== 200) {
-            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`getTargetBranchLastCommit failed with ${res.status}`);
             return null;
         }
         return res.data.object.sha;
@@ -9763,19 +9756,12 @@ const getTargetBranchLastCommit = async (octokit, owner, repo) => {
 };
 const getTrunkBranchLastCommit = async (octokit, owner, repo) => {
     try {
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(JSON.stringify({
-            owner,
-            repo,
-            ref: trunkBranchRef
-        }, null, '  '));
         const res = await octokit.rest.git.getRef({
             owner,
             repo,
             ref: trunkBranchRef
         });
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(JSON.stringify(res, null, '  '));
         if (res.status !== 200) {
-            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`getTrunkBranchLastCommit failed with ${res.status}`);
             return null;
         }
         return res.data.object.sha;
